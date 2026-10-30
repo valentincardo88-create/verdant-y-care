@@ -1,0 +1,541 @@
+<!DOCTYPE html><html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VERDANT Y CARE</title><style>
+:root {
+  --verde: #245c38;
+  --verde-claro: #e5efdc;
+  --amarillo: #f4d35e;
+  --crema: #fffdf4;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--crema);
+  color: #243b2b;
+}
+
+header {
+  background: var(--verde);
+  color: white;
+  text-align: center;
+  padding: 28px 12px;
+}
+
+header h1 {
+  margin: 0;
+  letter-spacing: 2px;
+  font-size: 28px;
+}
+
+header p { margin-bottom: 0; }
+
+nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  padding: 16px 8px;
+  background: var(--amarillo);
+}
+
+nav a {
+  color: #203b28;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.hero {
+  text-align: center;
+  padding: 45px 18px;
+  background: var(--verde-claro);
+}
+
+.hero h2 { font-size: 30px; }
+
+section {
+  padding: 28px 14px;
+  text-align: center;
+}
+
+h2 { color: var(--verde); }
+
+button, .boton {
+  background: var(--amarillo);
+  color: #203b28;
+  border: 0;
+  padding: 11px 15px;
+  margin: 5px;
+  border-radius: 7px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.productos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+.producto {
+  background: white;
+  border: 1px solid #dce5d4;
+  border-radius: 12px;
+  padding: 16px;
+  width: 245px;
+  max-width: 100%;
+}
+
+.foto {
+  background: var(--verde-claro);
+  border-radius: 9px;
+  padding: 22px 5px;
+  font-size: 55px;
+}
+
+.producto img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.precio {
+  font-size: 21px;
+  color: var(--verde);
+  font-weight: bold;
+}
+
+#carrito, #admin {
+  background: var(--verde-claro);
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 12px;
+  margin: 6px 0 12px;
+  border: 1px solid #aab9a6;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+form {
+  max-width: 500px;
+  margin: auto;
+  text-align: left;
+}
+
+.panel {
+  max-width: 650px;
+  margin: auto;
+}
+
+.item-carrito {
+  margin: 12px auto;
+}
+
+footer {
+  background: var(--verde);
+  color: white;
+  padding: 25px;
+  text-align: center;
+}
+
+.aviso {
+  font-size: 13px;
+  color: #555;
+}
+</style></head><body><header>
+  <h1>🌿 VERDANT Y CARE</h1>
+  <p>Cosmética sólida · Cuidado consciente</p>
+</header><nav>
+  <a href="#inicio">Inicio</a>
+  <a href="#tienda">Productos</a>
+  <a href="#carrito">Mi carrito 🛒</a>
+  <a href="#entrega">Entrega</a>
+</nav><div class="hero" id="inicio">
+  <h2>Belleza consciente, menos residuos 💚</h2>
+  <p>Descubrí una nueva forma de cuidar tu cabello y tu piel.</p>
+  <a class="boton" href="#tienda">Explorar productos</a>
+</div><section id="tienda">
+  <h2>Nuestros productos 🌱</h2>
+  <div class="productos" id="productos"></div>
+</section><section id="carrito">
+  <h2>Tu carrito 🛒</h2>
+  <div id="lista-carrito"></div>
+  <h3>Total: $<span id="total">0</span></h3>
+  <button onclick="vaciarCarrito()">Vaciar carrito</button>
+  <a class="boton" href="#entrega">Continuar</a>
+</section><section id="entrega">
+  <h2>Datos de entrega 📦</h2>
+  <form id="formPedido">
+    <label>Nombre y apellido</label>
+    <input id="nombre" required><label>Correo electrónico</label>
+<input id="correo" type="email" required>
+
+<label>Dirección de entrega</label>
+<input id="direccion" required>
+
+<label>Localidad</label>
+<input id="localidad" required>
+
+<label>Información adicional (opcional)</label>
+<textarea id="notas" rows="3"></textarea>
+
+<button type="submit">Preparar pedido</button>
+
+  </form>
+  <div id="resultado"></div>
+</section><section>
+  <h2>Nuestra filosofía 🌎</h2>
+  <p>
+    En VERDANT Y CARE buscamos incorporar alternativas
+    sólidas y prácticas a las rutinas de cuidado personal.
+  </p>
+</section><section id="admin">
+  <h2>Administración 🌿</h2>
+  <p>Panel de demostración para administrar los productos.</p><button onclick="abrirAdmin()">Entrar al panel</button>
+
+  <div id="panelAdmin" class="panel" hidden>
+    <h3>Agregar o editar productos</h3><form id="formProducto">
+  <label>Nombre del producto</label>
+  <input id="pNombre" required>
+
+  <label>Descripción</label>
+  <textarea id="pDescripcion" required></textarea>
+
+  <label>Precio en pesos</label>
+  <input id="pPrecio" type="number" min="0" required>
+
+  <label>Stock disponible</label>
+  <input id="pStock" type="number" min="0" required>
+
+  <label>Emoji del producto</label>
+  <select id="pEmoji">
+    <option value="🧴">🧴 Shampoo</option>
+    <option value="🌿">🌿 Acondicionador</option>
+    <option value="🧼">🧼 Jabón</option>
+    <option value="🌸">🌸 Bálsamo</option>
+    <option value="🍋">🍋 Cítricos</option>
+    <option value="🌼">🌼 Otro</option>
+  </select>
+
+  <button type="submit">Guardar producto</button>
+  <button type="button" onclick="cancelarEdicion()">Cancelar edición</button>
+</form>
+
+<h3>Productos actuales</h3>
+<div id="gestionProductos"></div>
+
+<h3>Pedidos de este dispositivo</h3>
+<div id="gestionPedidos"></div>
+
+  </div>
+</section><footer>
+  <h3>VERDANT Y CARE</h3>
+  <p>Tu cuidado, en armonía con la naturaleza. 🌿</p>
+  <p>© 2026 VERDANT Y CARE</p>
+</footer><script>
+const productosIniciales = [
+  {
+    id: 1, nombre: "Shampoo sólido",
+    descripcion: "Una alternativa práctica para tu rutina capilar.",
+    precio: 8000, stock: 10, emoji: "🧴"
+  },
+  {
+    id: 2, nombre: "Acondicionador sólido",
+    descripcion: "Complemento para tu cuidado capilar.",
+    precio: 9000, stock: 8, emoji: "🌿"
+  },
+  {
+    id: 3, nombre: "Jabón vegetal",
+    descripcion: "Una opción para tu rutina diaria.",
+    precio: 4500, stock: 12, emoji: "🧼"
+  },
+  {
+    id: 4, nombre: "Bálsamo labial",
+    descripcion: "Cuidado práctico para tus labios.",
+    precio: 3500, stock: 10, emoji: "🌸"
+  }
+];
+
+function cargar(clave, defecto) {
+  try {
+    const valor = localStorage.getItem(clave);
+    return valor ? JSON.parse(valor) : defecto;
+  } catch (e) {
+    return defecto;
+  }
+}
+
+let productos = cargar("vyc_productos", productosIniciales);
+let carrito = [];
+let pedidos = cargar("vyc_pedidos", []);
+let editando = null;
+
+function guardarProductos() {
+  localStorage.setItem("vyc_productos", JSON.stringify(productos));
+}
+
+function pesos(n) {
+  return Number(n).toLocaleString("es-AR");
+}
+
+function mostrarProductos() {
+  const contenedor = document.getElementById("productos");
+  contenedor.innerHTML = "";
+
+  productos.forEach(p => {
+    const tarjeta = document.createElement("article");
+    tarjeta.className = "producto";
+
+    const foto = document.createElement("div");
+    foto.className = "foto";
+    foto.textContent = p.emoji;
+
+    const nombre = document.createElement("h3");
+    nombre.textContent = p.nombre;
+
+    const descripcion = document.createElement("p");
+    descripcion.textContent = p.descripcion;
+
+    const precio = document.createElement("p");
+    precio.className = "precio";
+    precio.textContent = "$" + pesos(p.precio);
+
+    const stock = document.createElement("p");
+    stock.textContent = p.stock > 0
+      ? "Disponibles: " + p.stock
+      : "Sin stock";
+
+    const boton = document.createElement("button");
+    boton.textContent = "Agregar al carrito";
+    boton.disabled = p.stock <= 0;
+    boton.onclick = () => agregar(p.id);
+
+    tarjeta.append(foto, nombre, descripcion, precio, stock, boton);
+    contenedor.appendChild(tarjeta);
+  });
+}
+
+function agregar(id) {
+  const p = productos.find(x => x.id === id);
+  if (!p || p.stock <= 0) return;
+
+  const cantidad = carrito.filter(x => x.id === id).length;
+
+  if (cantidad >= p.stock) {
+    alert("No hay más unidades disponibles.");
+    return;
+  }
+
+  carrito.push({id: p.id, nombre: p.nombre, precio: Number(p.precio)});
+  mostrarCarrito();
+}
+
+function mostrarCarrito() {
+  const lista = document.getElementById("lista-carrito");
+  lista.innerHTML = "";
+  let total = 0;
+
+  carrito.forEach((p, i) => {
+    total += p.precio;
+
+    const fila = document.createElement("div");
+    fila.className = "item-carrito";
+    fila.textContent = p.nombre + " — $" + pesos(p.precio) + " ";
+
+    const quitar = document.createElement("button");
+    quitar.textContent = "Quitar";
+    quitar.onclick = () => {
+      carrito.splice(i, 1);
+      mostrarCarrito();
+    };
+
+    fila.appendChild(quitar);
+    lista.appendChild(fila);
+  });
+
+  if (!carrito.length) {
+    lista.textContent = "Tu carrito está vacío.";
+  }
+
+  document.getElementById("total").textContent = pesos(total);
+}
+
+function vaciarCarrito() {
+  carrito = [];
+  mostrarCarrito();
+}
+
+function abrirAdmin() {
+  alert(
+    "Demostración: este panel NO está protegido con contraseña. " +
+    "No publiques esta versión como panel privado real."
+  );
+
+  document.getElementById("panelAdmin").hidden = false;
+  mostrarGestion();
+}
+
+function cancelarEdicion() {
+  editando = null;
+  document.getElementById("formProducto").reset();
+}
+
+document.getElementById("formProducto").addEventListener("submit", e => {
+  e.preventDefault();
+
+  const datos = {
+    nombre: document.getElementById("pNombre").value.trim(),
+    descripcion: document.getElementById("pDescripcion").value.trim(),
+    precio: Number(document.getElementById("pPrecio").value),
+    stock: Number(document.getElementById("pStock").value),
+    emoji: document.getElementById("pEmoji").value
+  };
+
+  if (!datos.nombre || datos.precio < 0 || datos.stock < 0) {
+    alert("Revisá los datos del producto.");
+    return;
+  }
+
+  if (editando !== null) {
+    productos = productos.map(p =>
+      p.id === editando ? {...p, ...datos} : p
+    );
+  } else {
+    productos.push({...datos, id: Date.now()});
+  }
+
+  guardarProductos();
+  cancelarEdicion();
+  mostrarProductos();
+  mostrarGestion();
+});
+
+function mostrarGestion() {
+  const cont = document.getElementById("gestionProductos");
+  cont.innerHTML = "";
+
+  productos.forEach(p => {
+    const fila = document.createElement("div");
+    fila.className = "producto";
+
+    const texto = document.createElement("p");
+    texto.textContent = p.emoji + " " + p.nombre +
+      " — $" + pesos(p.precio) + " — Stock: " + p.stock;
+
+    const editar = document.createElement("button");
+    editar.textContent = "Editar";
+    editar.onclick = () => {
+      editando = p.id;
+      document.getElementById("pNombre").value = p.nombre;
+      document.getElementById("pDescripcion").value = p.descripcion;
+      document.getElementById("pPrecio").value = p.precio;
+      document.getElementById("pStock").value = p.stock;
+      document.getElementById("pEmoji").value = p.emoji;
+      document.getElementById("formProducto").scrollIntoView();
+    };
+
+    const eliminar = document.createElement("button");
+    eliminar.textContent = "Eliminar";
+    eliminar.onclick = () => {
+      if (confirm("¿Eliminar " + p.nombre + "?")) {
+        productos = productos.filter(x => x.id !== p.id);
+        guardarProductos();
+        mostrarProductos();
+        mostrarGestion();
+      }
+    };
+
+    fila.append(texto, editar, eliminar);
+    cont.appendChild(fila);
+  });
+
+  const contPedidos = document.getElementById("gestionPedidos");
+  contPedidos.innerHTML = "";
+
+  if (!pedidos.length) {
+    contPedidos.textContent = "Todavía no hay pedidos guardados aquí.";
+  } else {
+    pedidos.forEach(p => {
+      const caja = document.createElement("div");
+      caja.className = "producto";
+
+      const titulo = document.createElement("h4");
+      titulo.textContent = "Pedido #" + p.id;
+
+      const detalle = document.createElement("p");
+      detalle.textContent = p.nombre + " — " + p.direccion +
+        ", " + p.localidad + " — Total: $" + pesos(p.total);
+
+      caja.append(titulo, detalle);
+      contPedidos.appendChild(caja);
+    });
+  }
+}
+
+document.getElementById("formPedido").addEventListener("submit", e => {
+  e.preventDefault();
+
+  if (!carrito.length) {
+    alert("Agregá al menos un producto.");
+    return;
+  }
+
+  const cantidades = {};
+
+  carrito.forEach(p => {
+    cantidades[p.id] = (cantidades[p.id] || 0) + 1;
+  });
+
+  for (const id in cantidades) {
+    const p = productos.find(x => x.id === Number(id));
+    if (!p || p.stock < cantidades[id]) {
+      alert("El stock cambió. Revisá tu carrito.");
+      return;
+    }
+  }
+
+  const total = carrito.reduce((s, p) => s + p.precio, 0);
+
+  const pedido = {
+    id: Date.now(),
+    nombre: document.getElementById("nombre").value.trim(),
+    correo: document.getElementById("correo").value.trim(),
+    direccion: document.getElementById("direccion").value.trim(),
+    localidad: document.getElementById("localidad").value.trim(),
+    notas: document.getElementById("notas").value.trim(),
+    productos: [...carrito],
+    total: total
+  };
+
+  pedidos.push(pedido);
+  localStorage.setItem("vyc_pedidos", JSON.stringify(pedidos));
+
+  for (const id in cantidades) {
+    const p = productos.find(x => x.id === Number(id));
+    p.stock -= cantidades[id];
+  }
+
+  guardarProductos();
+  mostrarProductos();
+
+  document.getElementById("resultado").textContent =
+    "Pedido de demostración #" + pedido.id +
+    " preparado. Total: $" + pesos(total) +
+    ". Todavía no se realizó ningún pago.";
+
+  document.getElementById("formPedido").reset();
+  vaciarCarrito();
+});
+mostrarProductos();
+mostrarCarrito();
+</script></body>
+  </html>
